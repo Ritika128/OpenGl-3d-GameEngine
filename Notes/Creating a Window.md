@@ -6,45 +6,76 @@ Steps to create a window:
 2. In the solution file of the OpenGL project, make a new folder (dependencies) and copy the include and libvc-(version of visual studio being used) from the downloaded GLFW binaries inside the dependencies/OpenGL folder.
 3. Open a new project in Visual Studio and use the sample code provided on the GLFW website to make a window after resolving the OpenGL and win32 API dependencies.
 
-Code to make a window using GLFW:
+Code to make a window and display a triangle using GLFW and Legacy OpenGL:
 ```c++
 #include <GLFW/glfw3.h>
-
 int main(void)
 {
-    GLFWwindow* window;
+GLFWwindow* window;  
+/* Initialize the library */
+if (!glfwInit())
+return -1;  
+/* Create a windowed mode window and its OpenGL context */
+window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+if (!window)
+{
+glfwTerminate();
+return -1;
+}
+/* Make the window's context current */
+glfwMakeContextCurrent(window);
+/* Loop until the user closes the window */
+while (!glfwWindowShouldClose(window))
 
-    /* Initialize the library */
-    if (!glfwInit())
-        return -1;
+{
 
-    /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
-    if (!window)
-    {
-        glfwTerminate();
-        return -1;
-    }
+/* Render here */
 
-    /* Make the window's context current */
-    glfwMakeContextCurrent(window);
+glClear(GL_COLOR_BUFFER_BIT);
 
-    /* Loop until the user closes the window */
-    while (!glfwWindowShouldClose(window))
-    {
-        /* Render here */
-        glClear(GL_COLOR_BUFFER_BIT);
+//Code to render a triangle using Legacy OpenGL
+  
+glBegin(GL_TRIANGLES);
 
-        /* Swap front and back buffers */
-        glfwSwapBuffers(window);
+glVertex2f(-0.5f, -0.5f);
 
-        /* Poll for and process events */
-        glfwPollEvents();
-    }
+glVertex2f( 0.0f, 0.5f);
 
-    glfwTerminate();
-    return 0;
+glVertex2f( 0.5f, -0.5f);
+
+glEnd();
+  
+/* Swap front and back buffers */
+
+glfwSwapBuffers(window);
+
+/* Poll for and process events */
+
+glfwPollEvents();
+}
+
+glfwTerminate();
+
+return 0;
+
 }
 ```
+
+Code snippet to make a triangle on the screen using Legacy OpenGL:
+```C++
+glBegin(GL_TRIANGLES);
+
+glVertex2f(-0.5f, -0.5f);
+
+glVertex2f( 0.0f, 0.5f);
+
+glVertex2f( 0.5f, -0.5f);
+
+glEnd();
+```
+
+Output:
+Created a Triangle using Legacy OpenGL.
+![[LegacyOpenGL Triangle.png]]
 
 

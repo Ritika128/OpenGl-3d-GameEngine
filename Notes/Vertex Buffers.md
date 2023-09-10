@@ -27,3 +27,21 @@ Detailed information on the functions used:
 [glBufferData](https://docs.gl/gl4/glBufferData)
 
 Since OpenGL is a state machine , the buffer that is bounded will be the one that will be executed.
+
+## glGenBuffers:
+
+This function takes two parameters. 
+
+The first parameter accepts an integer to specify how many buffers you would like to generate. 
+
+The second parameter accepts a pointer to an unsigned int. This unsigned int's memory is written on by the buffer.
+
+This function is generating a buffer and giving us back an id.
+
+## glBindBuffer:
+
+This function is used to select/bind a defined buffer using its id. 
+
+The first parameter is the target to which the buffer object is bound. Detailed information is given in the link provided above.
+
+The second parameter is the name of the buffer object to be selected/bound. (The name of the unsigned int)
