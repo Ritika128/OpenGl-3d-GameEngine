@@ -1,10 +1,9 @@
-// Objective - to render a red triangle by taking the shader program from the path res/shaders/Basic.glsl
+
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <sstream>
-
 using namespace std;
  //multiple return type
  struct ShaderProgramsSource
