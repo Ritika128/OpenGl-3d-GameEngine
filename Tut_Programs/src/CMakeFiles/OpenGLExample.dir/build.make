@@ -92,8 +92,6 @@ OpenGLExample_EXTERNAL_OBJECTS =
 
 OpenGLExample: CMakeFiles/OpenGLExample.dir/FileShader.cpp.o
 OpenGLExample: CMakeFiles/OpenGLExample.dir/build.make
-OpenGLExample: /usr/lib/x86_64-linux-gnu/libGLX.so
-OpenGLExample: /usr/lib/x86_64-linux-gnu/libOpenGL.so
 OpenGLExample: CMakeFiles/OpenGLExample.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/anish/Desktop/OpenGL/Tut_Programs/src/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable OpenGLExample"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/OpenGLExample.dir/link.txt --verbose=$(VERBOSE)

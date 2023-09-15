@@ -1,1 +1,1 @@
-/usr/bin/c++ CMakeFiles/OpenGLExample.dir/FileShader.cpp.o -o OpenGLExample  -lglfw /usr/lib/x86_64-linux-gnu/libGLX.so /usr/lib/x86_64-linux-gnu/libOpenGL.so 
+/usr/bin/c++ CMakeFiles/OpenGLExample.dir/FileShader.cpp.o -o OpenGLExample  -lglfw -lGL -lglew 
