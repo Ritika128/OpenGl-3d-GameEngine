@@ -2,13 +2,13 @@
 //index buffers and uniforms
 #include <GLFW/glfw3.h>
 #include <iostream>
-#include<fstream>
-#include<string>
-#include<sstream>
+#include <fstream>
+#include <string>
+#include <sstream>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
- //multiple return type
+ 
  struct ShaderProgramsSource
  {
     std::string VertexSource;
@@ -112,7 +112,7 @@ int main(void)
     glfwSwapInterval(1);
 
     float positions [] = {
-		 0.5f, -0.5f, 0.5f,
+		-0.5f, -0.5f, 0.5f,
          0.5f, -0.5f, 0.5f,
          0.5f,  0.5f, 0.5f,
         -0.5f,  0.5f, 0.5f,
@@ -124,33 +124,58 @@ int main(void)
          };
     //index buffer
     unsigned int indices[] = {
-		// front
-		0, 1, 2,
-		2, 3, 0,
-		// right
-		1, 5, 6,
-		6, 2, 1,
-		// back
-		7, 6, 5,
-		5, 4, 7,
-		// left
-		4, 0, 3,
-		3, 7, 4,
-		// bottom
-		4, 5, 1,
-		1, 0, 4,
-		// top
-		3, 2, 6,
-		6, 7, 3
-         };
+		0, 1, 2, // Front
+        2, 3, 0,
 
+        1, 2, 6, // Right
+        6, 5, 1,
+
+        4, 5, 6, // Back
+        6, 7, 4,
+        
+        3, 2, 6, // Top
+        6, 7, 3,
+
+
+        0, 3, 7, // Left
+        7, 4, 0,
+
+        4, 5, 1, // Bottom
+        1, 0, 4,
+};
+
+GLfloat cube_colors[] = {
+    // front colors
+    1.0f, 1.0f, 1.0f,
+    1.0f, 1.0f, 0.0f,
+    0.0f, 1.0f, 1.0f,
+    0.2f, 1.0f, 1.0f,
+    // back colors
+    1.0f, 0.0f, 0.0f,
+    0.0f, 1.0f, 0.0f,
+    0.8f, 0.8f, 0.8f,
+    0.8f, 0.8f, 0.8f
+  };
+
+
+    unsigned int colors;
     unsigned int buffer;
     glGenBuffers(1, &buffer);                                                    
     glBindBuffer(GL_ARRAY_BUFFER, buffer);                                       
     glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW); 
 
+
+    glGenBuffers(1, &colors);                                                    
+    glBindBuffer(GL_ARRAY_BUFFER, colors);                                       
+    glBufferData(GL_ARRAY_BUFFER, sizeof(cube_colors), cube_colors, GL_STATIC_DRAW); 
+
+    
+
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT,GL_FALSE, 0 ,0);
+
+  
+
 
     //index buffer objecta
     unsigned int ibo;
@@ -159,7 +184,7 @@ int main(void)
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW); 
 
 
-    ShaderProgramsSource source = ParseShader("res/shaders/Linear.shader");
+    ShaderProgramsSource source = ParseShader("res/shaders/Colour.shader");
     unsigned int shader = CreateShader(source.VertexSource,source.FragmentSource);
     glUseProgram(shader);
     
