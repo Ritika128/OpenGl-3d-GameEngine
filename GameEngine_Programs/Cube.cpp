@@ -144,18 +144,18 @@ int main(void)
         1, 0, 4,
 };
 
-GLfloat cube_colors[] = {
-    // front colors
-    1.0f, 1.0f, 1.0f,
-    1.0f, 1.0f, 0.0f,
-    0.0f, 1.0f, 1.0f,
-    0.2f, 1.0f, 1.0f,
-    // back colors
-    1.0f, 0.0f, 0.0f,
-    0.0f, 1.0f, 0.0f,
-    0.8f, 0.8f, 0.8f,
-    0.8f, 0.8f, 0.8f
-  };
+// GLfloat cube_colors[] = {
+//     // front colors
+//     1.0f, 1.0f, 1.0f,
+//     1.0f, 1.0f, 0.0f,
+//     0.0f, 1.0f, 1.0f,
+//     0.2f, 1.0f, 1.0f,
+//     // back colors
+//     1.0f, 0.0f, 0.0f,
+//     0.0f, 1.0f, 0.0f,
+//     0.8f, 0.8f, 0.8f,
+//     0.8f, 0.8f, 0.8f
+//   };
 
 
     unsigned int colors;
@@ -165,10 +165,7 @@ GLfloat cube_colors[] = {
     glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW); 
 
 
-    glGenBuffers(1, &colors);                                                    
-    glBindBuffer(GL_ARRAY_BUFFER, colors);                                       
-    glBufferData(GL_ARRAY_BUFFER, sizeof(cube_colors), cube_colors, GL_STATIC_DRAW); 
-
+ 
     
 
     glEnableVertexAttribArray(0);
