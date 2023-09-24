@@ -144,7 +144,7 @@ int main(void)
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT,GL_FALSE, sizeof(float) * 3,0);
 
-    ShaderProgramsSource source = ParseShader("res/shaders/Linear.shader");
+    ShaderProgramsSource source = ParseShader("res/shaders/Colour.shader");
     std::cout << "VERTEX" << endl;
     std::cout << source.VertexSource << endl;
     std::cout << "FRAGMENT" << endl;

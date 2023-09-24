@@ -144,37 +144,71 @@ int main(void)
         1, 0, 4,
 };
 
-// GLfloat cube_colors[] = {
-//     // front colors
-//     1.0f, 1.0f, 1.0f,
-//     1.0f, 1.0f, 0.0f,
-//     0.0f, 1.0f, 1.0f,
-//     0.2f, 1.0f, 1.0f,
-//     // back colors
-//     1.0f, 0.0f, 0.0f,
-//     0.0f, 1.0f, 0.0f,
-//     0.8f, 0.8f, 0.8f,
-//     0.8f, 0.8f, 0.8f
-//   };
+float colors[] = {
+        
+        1.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f,
+        
+      
+        1.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f,
+        
+        
+        0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 1.0f,
+        
+        
+        0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 1.0f,
+        
+        
+        0.0f, 1.0f, 0.0f,
+        0.0f, 1.0f, 0.0f,
+        0.0f, 1.0f, 0.0f,
+        0.0f, 1.0f, 0.0f,
+        
+        
+        0.0f, 1.0f, 0.0f,
+        0.0f, 1.0f, 0.0f,
+        0.0f, 1.0f, 0.0f,
+        0.0f, 1.0f, 0.0f
+    };
 
 
-    unsigned int colors;
+
+    unsigned int VAO;
+    glGenVertexArrays(1,&VAO);
+    glBindVertexArray(VAO);
+
     unsigned int buffer;
     glGenBuffers(1, &buffer);                                                    
     glBindBuffer(GL_ARRAY_BUFFER, buffer);                                       
     glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW); 
 
-
- 
     
-
-    glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT,GL_FALSE, 0 ,0);
+    glEnableVertexAttribArray(0);
 
   
+    unsigned int colorVBO;
+    glGenBuffers(1,&colorVBO);
+    glBindBuffer(GL_ARRAY_BUFFER,colorVBO);
+    glBufferData(GL_ARRAY_BUFFER,sizeof(colors),colors,GL_STATIC_DRAW);
 
+    
+    glVertexAttribPointer(0, 3, GL_FLOAT,GL_FALSE, 0 ,0);
+    glEnableVertexAttribArray(1);
 
-    //index buffer objecta
+    glBindVertexArray(0);
+
     unsigned int ibo;
     glGenBuffers(1, &ibo);                                                    
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);                                       
@@ -192,8 +226,10 @@ int main(void)
     
         
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-       
+
         glDrawElements(GL_TRIANGLES, 6*6, GL_UNSIGNED_INT, nullptr);
+    
+
 
         glm::mat4 trans = glm::mat4(1.0f);
         trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(1.0f, 0.0f, 0.0f)); 
