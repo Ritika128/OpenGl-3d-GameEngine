@@ -8,7 +8,8 @@ uniform mat4 view;
 
 void main()
 {
-    gl_Position = transform*view*position;
+    gl_Position = position*view;
+    gl_Position = gl_Position*transform;
 };
 
 #shader fragment

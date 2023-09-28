@@ -157,12 +157,11 @@ int main(void)
     glEnableVertexAttribArray(0);
 
   
-    glm::vec3 eye = glm::vec3(2.0f, 0.0f, 0.0f); 
+    glm::vec3 eye = glm::vec3(0.0f, 0.0f, 1.0f); 
     glm::vec3 centre = glm::vec3(0.0f, 0.0f, -4.0f);    
     glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);        
 
-    glm::mat4 view = glm::lookAt(eye, centre, up);
-
+    
 
 
     unsigned int ibo;
@@ -175,6 +174,8 @@ int main(void)
     unsigned int shader = CreateShader(source.VertexSource,source.FragmentSource);
     glUseProgram(shader);
 
+   
+    
  
     
     
@@ -184,9 +185,12 @@ int main(void)
         
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
+         glm::mat4 viewMatrix = glm::lookAt(eye, centre, up);
+
+
         unsigned int viewLoc = glGetUniformLocation(shader, "view");
-        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-    
+        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(viewMatrix));
+        
 
 
         glm::mat4 trans = glm::mat4(1.0f);
