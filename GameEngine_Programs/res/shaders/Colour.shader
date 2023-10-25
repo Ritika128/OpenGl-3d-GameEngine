@@ -2,24 +2,23 @@
 #version 330 core
  
 layout(location=0) in vec4 position;
-layout(location=1) in vec3 facecolor;
-
-out vec4 vertexColor;
+layout(location=1) in vec3 Colour;
+out vec4 FragColour;
 uniform mat4 transform;
 
 void main()
 {
     gl_Position = transform*position;
-    vertexColor = vec4(facecolor,1.0);
+    FragColour = vec4(Colour,0.0);
 };
 
 #shader fragment
 #version 330 core
 
-in vec4 vertexColor;
-layout(location = 0) out vec4 color;
+in vec3 FragColour;
+out vec4 color;
 
 void main()
 {
-    color = vertexColor;
+    color = vec4(FragColour,0.0);
 }

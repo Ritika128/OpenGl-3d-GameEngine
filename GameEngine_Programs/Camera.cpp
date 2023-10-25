@@ -157,8 +157,8 @@ int main(void)
     glEnableVertexAttribArray(0);
 
   
-    glm::vec3 eye = glm::vec3(0.0f, 0.0f, 1.0f); 
-    glm::vec3 centre = glm::vec3(0.0f, 0.0f, -4.0f);    
+    glm::vec3 eye = glm::vec3(0.0f, 0.0f, -4.0f); 
+    glm::vec3 centre = glm::vec3(0.0f, 0.0f, 0.0f);    
     glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);        
 
     
