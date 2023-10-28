@@ -133,6 +133,7 @@ int main(void)
     glUseProgram(shader);
     float x_axis = 0.0f;
     float move= 0.01f; //speed of movement
+   
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
@@ -148,10 +149,11 @@ int main(void)
         {
             x_axis=-1.5f;
         }
+        
 
         glm::mat4 trans = glm::mat4(1.0f);
         trans = glm::translate(trans,glm::vec3(x_axis, 0.0f, 0.0f));
-        trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f)); 
+        //trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f)); 
         
         
         unsigned int transformLoc = glGetUniformLocation(shader, "transform");

@@ -1,4 +1,3 @@
-
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <fstream>
@@ -7,7 +6,9 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
- 
+
+using namespace std;
+ //multiple return type
  struct ShaderProgramsSource
  {
     std::string VertexSource;
@@ -99,7 +100,7 @@ int main(void)
         return -1;
 
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+    window = glfwCreateWindow(640, 480, "Chess", NULL, NULL);
     if (!window)
     {
         glfwTerminate();
@@ -110,81 +111,72 @@ int main(void)
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
 
-    float rectangleVertices[] = {
-        -0.5f, -0.5f,  
-         0.5f, -0.5f,    
-         0.5f,  0.5f,  
-        -0.5f,  0.5f 
-    };
 
+    float positions [] = {
+		-1.0f, -1.0f,  //0
+		 1.0f, -1.0f,  //1
+		 1.0f,  1.0f,  //2
+		-1.0f,  1.0f   //3
+         };
+         
+    //index buffer
+    unsigned int indices[] = {
+		0, 1, 2,
+		2, 3, 0
+         };
 
-    // float circleVertices[360 * 2];
-    // float radius = 0.3f;
-    // for (int i = 0; i < 360; i++) {
-    //     float angle = glm::radians(float(i));
-    //     circleVertices[i * 2] = radius * cos(angle);
-    //     circleVertices[i * 2 + 1] = radius * sin(angle);
-    // }
+    unsigned int buffer;
+    glGenBuffers(1, &buffer);                                                    
+    glBindBuffer(GL_ARRAY_BUFFER, buffer);                                       
+    glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), positions, GL_STATIC_DRAW); 
 
-        
-
-    // unsigned int buffer, buffer2;
-    // glGenBuffers(1, &buffer);                          
-    // glBindBuffer(GL_ARRAY_BUFFER, buffer);                                       
-    // glBufferData(GL_ARRAY_BUFFER, sizeof(rectangleVertices), rectangleVertices, GL_STATIC_DRAW); 
     // glEnableVertexAttribArray(0);
-    // glVertexAttribPointer(0, 2, GL_FLOAT,GL_FALSE, 2 * sizeof(float),(void*)0);
-    
-    // glGenBuffers(1, &buffer2);
-    // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer2);                                       
-    // glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(circleVertices), circleVertices, GL_STATIC_DRAW);
-    // glEnableVertexAttribArray(0);
-    // glVertexAttribPointer(0, 2, GL_FLOAT,GL_FALSE, 2 * sizeof(float),(void*)0);
+    // glVertexAttribPointer(0, 2, GL_FLOAT,GL_FALSE, 0 ,0);
 
-    
-   
-    
-    ShaderProgramsSource source = ParseShader("res/shaders/Basic.shader");
-    unsigned int shader = CreateShader(source.VertexSource,source.FragmentSource); 
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glVertexPointer(2, GL_FLOAT, 0,0);
 
-   
+    //index buffer objecta
+    unsigned int ibo;
+    glGenBuffers(1, &ibo);                                                    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);                                       
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), indices, GL_STATIC_DRAW); 
+
+
+    ShaderProgramsSource source = ParseShader("res/shaders/Board.shader");
+    unsigned int shader = CreateShader(source.VertexSource,source.FragmentSource);
+    glUseProgram(shader);
     
+    
+    int uniformLocation = glGetUniformLocation(shader, "color");
+    glm::vec4 white = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+    //glm::vec4 brown = glm::vec4(0.647f, 0.164f, 0.164f, 1.0f);
+    glm::vec4 brown = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+
+    /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
-    
-        
-        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-        
-        
+        /* Render here */
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f); //set the clear color to black
+        glClear(GL_COLOR_BUFFER_BIT);
 
-        unsigned int buffer, buffer2;
-        glGenBuffers(1, &buffer);                          
-        glBindBuffer(GL_ARRAY_BUFFER, buffer);                                       
-        glBufferData(GL_ARRAY_BUFFER, sizeof(rectangleVertices), rectangleVertices, GL_STATIC_DRAW); 
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 2, GL_FLOAT,GL_FALSE, 2 * sizeof(float),(void*)0);
-        glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)12);
+        for(int i = 0; i<8; i++)
+        {
+            for(int j = 0; j<8; j++)
+            {
+                //if sum is even it gives white color else brown
+                // glm::vec4 currentColor = (i + j) % 2 == 0 ? white : brown;
+                // glUniform4fv(uniformLocation, 1, glm::value_ptr(currentColor));
 
-        glDrawArrays(GL_QUADS, 0, 4);
-    
-        glGenBuffers(1, &buffer2);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer2);                                       
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(circleVertices), circleVertices, GL_STATIC_DRAW);
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 2, GL_FLOAT,GL_FALSE, 2 * sizeof(float),(void*)0);
-        glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)(12));
+                float x = -1.0f + (i * 2.0f)/8.0f;
+                float y = -1.0f  + (j * 2.0f)/8.0f;
+                glLoadIdentity();
+                glTranslatef(x,y,0.0f);
 
-        glDrawArrays(GL_TRIANGLE_FAN, 0, 360);
+                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+            }
+        }
 
-        glUseProgram(shader);
-
-        
-
-
-    
-        
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
