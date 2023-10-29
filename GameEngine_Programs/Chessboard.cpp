@@ -161,21 +161,7 @@ int main(void)
         glClear(GL_COLOR_BUFFER_BIT);
 
         
-       for(int i = 0; i <8; i++)
-        {
-            for(int j = 0; j<8; j++)
-            {
-                
-                
-                float x = -1.0f + (i * 2.0f)/8.0f;
-                float y = -1.0f  + (j * 2.0f)/8.0f;
-                glLoadIdentity();
-                glTranslatef(x,y,0.0f);
-
-                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-            }
-        }
-        
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
 
         /* Swap front and back buffers */
