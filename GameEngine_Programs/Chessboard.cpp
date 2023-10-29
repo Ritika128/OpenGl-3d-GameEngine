@@ -143,7 +143,7 @@ int main(void)
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), indices, GL_STATIC_DRAW); 
 
 
-    ShaderProgramsSource source = ParseShader("res/shaders/Board.shader");
+    ShaderProgramsSource source = ParseShader("res/shaders/Chessboard.shader");
     unsigned int shader = CreateShader(source.VertexSource,source.FragmentSource);
     glUseProgram(shader);
     
@@ -160,14 +160,13 @@ int main(void)
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f); //set the clear color to black
         glClear(GL_COLOR_BUFFER_BIT);
 
-        for(int i = 0; i<8; i++)
+        
+       for(int i = 0; i <8; i++)
         {
             for(int j = 0; j<8; j++)
             {
-                //if sum is even it gives white color else brown
-                // glm::vec4 currentColor = (i + j) % 2 == 0 ? white : brown;
-                // glUniform4fv(uniformLocation, 1, glm::value_ptr(currentColor));
-
+                
+                
                 float x = -1.0f + (i * 2.0f)/8.0f;
                 float y = -1.0f  + (j * 2.0f)/8.0f;
                 glLoadIdentity();
@@ -176,6 +175,7 @@ int main(void)
                 glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
             }
         }
+        
 
 
         /* Swap front and back buffers */
