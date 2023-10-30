@@ -1,198 +1,125 @@
 
 #include <GLFW/glfw3.h>
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <sstream>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
- 
- struct ShaderProgramsSource
- {
-    std::string VertexSource;
-    std::string FragmentSource;
- };
 
-static ShaderProgramsSource ParseShader(const std::string& filepath)
-{
-    std::ifstream stream(filepath);
-    enum class ShaderType
-    {
-        NONE = -1, VERTEX = 0, FRAGMENT = 1
-    };
-    std::string line;
-    std::stringstream ss[2];
-    ShaderType type = ShaderType::NONE;
-    while(getline(stream, line))
-    {
-        if (line.find("#shader") != std::string::npos )
-        {
-            if(line.find("vertex")!= std::string::npos)
-                type = ShaderType::VERTEX;
-            //set node to vertex
-            else if(line.find("fragment")!= std::string::npos)
-                type = ShaderType::FRAGMENT;
-            //set node to fragment 
-        }
-        else
-        {
-            ss[(int)type] << line << '\n';
-        }
+// Vertex data for the red and blue rectangles
+GLfloat vertices[] = {
+    // Red Rectangle
+    0.0f, 0.5f, 0.0f,
+    0.5f, 0.5f, 0.0f,
+    0.5f, 0.0f, 0.0f,
+    0.0f, 0.0f, 0.0f,
+
+    // Blue Rectangle
+    -0.5f, -0.5f, 0.0f,
+    0.0f, -0.5f, 0.0f,
+    0.0f, 0.0f, 0.0f,
+    -0.5f, 0.0f, 0.0f,
+};
+
+// Color data for the red and blue rectangles
+GLfloat colors[] = {
+    // Red Rectangle
+    1.0f, 0.0f, 0.0f,
+    1.0f, 0.0f, 0.0f,
+    1.0f, 0.0f, 0.0f,
+    1.0f, 0.0f, 0.0f,
+
+    // Blue Rectangle
+    0.0f, 0.0f, 1.0f,
+    0.0f, 0.0f, 1.0f,
+    0.0f, 0.0f, 1.0f,
+    0.0f, 0.0f, 1.0f,
+};
+
+// Vertex shader source code
+const char* vertexShaderSource = R"(
+    #version 330 core
+    in vec3 position;
+    in vec3 color;
+    out vec3 fragColor;
+    void main() {
+        gl_Position = vec4(position, 1.0);
+        fragColor = color;
     }
-    return
-    {
-        ss[0].str(), ss[1].str() 
-    };
-}
+)";
 
-static unsigned int CompileShader(unsigned int type, const std::string& source)
-{
-	unsigned int id = glCreateShader(type);
-	const char* src = source.c_str();
-    glShaderSource(id, 1, &src, nullptr);
-    glCompileShader(id);
-
-    //error handling code, iv integer the specifies it wants a vector
-    int result;
-    glGetShaderiv(id, GL_COMPILE_STATUS,&result);
-    if(result == GL_FALSE)
-    {
-        int length;
-        glGetShaderiv(id,GL_INFO_LOG_LENGTH,&length);
-        char* message = (char*)alloca(length * sizeof(char));
-        glGetShaderInfoLog(id,length, &length ,message);
-        std::cout<< "Failed to compile " << 
-        (type == GL_VERTEX_SHADER ? "vertex" : "fragment")
-        << std::endl;
-        std::cout<< message<< std::endl;
-        glDeleteShader(id);
-        return 0;
+// Fragment shader source code
+const char* fragmentShaderSource = R"(
+    #version 330 core
+    in vec3 fragColor;
+    out vec4 color;
+    void main() {
+        color = vec4(fragColor, 1.0);
     }
-    return id;
-}
+)";
 
-//creating shader
-static unsigned int CreateShader(const std::string& vertexShader, const std::string& fragmentShader)
-{
-	unsigned int program = glCreateProgram();
-	unsigned int vs = CompileShader(GL_VERTEX_SHADER, vertexShader);
-	unsigned int fs = CompileShader(GL_FRAGMENT_SHADER, fragmentShader);
-    //to link vs and fs together
-    glAttachShader(program, vs);
-    glAttachShader(program, fs);
-    glLinkProgram(program);
-    glValidateProgram(program);
-    //to delete when we get the results
-    glDeleteShader(vs);
-    glDeleteShader(fs);
-
-    return program;
-}
-
-int main(void)
-{
-    GLFWwindow* window;
-
-    /* Initialize the library */
-    if (!glfwInit())
+int main() {
+    if (!glfwInit()) {
         return -1;
+    }
 
-    /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
-    if (!window)
-    {
+    // Create a GLFW window
+    GLFWwindow* window = glfwCreateWindow(800, 600, "OpenGL Rectangles", NULL, NULL);
+    if (!window) {
         glfwTerminate();
         return -1;
     }
 
-    /* Make the window's context current */
     glfwMakeContextCurrent(window);
-    glfwSwapInterval(1);
-
-    float rectangleVertices[] = {
-        -0.5f, -0.5f,  
-         0.5f, -0.5f,    
-         0.5f,  0.5f,  
-        -0.5f,  0.5f 
-    };
-
-
-    // float circleVertices[360 * 2];
-    // float radius = 0.3f;
-    // for (int i = 0; i < 360; i++) {
-    //     float angle = glm::radians(float(i));
-    //     circleVertices[i * 2] = radius * cos(angle);
-    //     circleVertices[i * 2 + 1] = radius * sin(angle);
-    // }
-
-        
-
-    // unsigned int buffer, buffer2;
-    // glGenBuffers(1, &buffer);                          
-    // glBindBuffer(GL_ARRAY_BUFFER, buffer);                                       
-    // glBufferData(GL_ARRAY_BUFFER, sizeof(rectangleVertices), rectangleVertices, GL_STATIC_DRAW); 
-    // glEnableVertexAttribArray(0);
-    // glVertexAttribPointer(0, 2, GL_FLOAT,GL_FALSE, 2 * sizeof(float),(void*)0);
-    
-    // glGenBuffers(1, &buffer2);
-    // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer2);                                       
-    // glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(circleVertices), circleVertices, GL_STATIC_DRAW);
-    // glEnableVertexAttribArray(0);
-    // glVertexAttribPointer(0, 2, GL_FLOAT,GL_FALSE, 2 * sizeof(float),(void*)0);
 
     
-   
-    
-    ShaderProgramsSource source = ParseShader("res/shaders/Basic.shader");
-    unsigned int shader = CreateShader(source.VertexSource,source.FragmentSource); 
 
-   
-    
-    while (!glfwWindowShouldClose(window))
-    {
-    
-        
-        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-        
-        
+    GLuint vertexArray, vertexBuffer, colorBuffer, shaderProgram;
+    glGenVertexArrays(1, &vertexArray);
+    glGenBuffers(1, &vertexBuffer);
+    glGenBuffers(1, &colorBuffer);
 
-        unsigned int buffer, buffer2;
-        glGenBuffers(1, &buffer);                          
-        glBindBuffer(GL_ARRAY_BUFFER, buffer);                                       
-        glBufferData(GL_ARRAY_BUFFER, sizeof(rectangleVertices), rectangleVertices, GL_STATIC_DRAW); 
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 2, GL_FLOAT,GL_FALSE, 2 * sizeof(float),(void*)0);
-        glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)12);
+    glBindVertexArray(vertexArray);
 
-        glDrawArrays(GL_QUADS, 0, 4);
-    
-        glGenBuffers(1, &buffer2);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer2);                                       
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(circleVertices), circleVertices, GL_STATIC_DRAW);
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 2, GL_FLOAT,GL_FALSE, 2 * sizeof(float),(void*)0);
-        glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)(12));
+    // Vertex Buffer
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+    glEnableVertexAttribArray(0);
 
-        glDrawArrays(GL_TRIANGLE_FAN, 0, 360);
+    // Color Buffer
+    glBindBuffer(GL_ARRAY_BUFFER, colorBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
+    glEnableVertexAttribArray(1);
 
-        glUseProgram(shader);
+    // Compile and link shaders
+    GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+    glCompileShader(vertexShader);
 
-        
+    GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+    glCompileShader(fragmentShader);
 
+    shaderProgram = glCreateProgram();
+    glAttachShader(shaderProgram, vertexShader);
+    glAttachShader(shaderProgram, fragmentShader);
+    glLinkProgram(shaderProgram);
 
-    
-        
-
-        /* Swap front and back buffers */
+    while (!glfwWindowShouldClose(window)) {
+        glClear(GL_COLOR_BUFFER_BIT);
+        glUseProgram(shaderProgram);
+        glBindVertexArray(vertexArray);
+        glDrawArrays(GL_TRIANGLE_FAN, 0, 4); // Red Rectangle
+        glDrawArrays(GL_TRIANGLE_FAN, 4, 4); // Blue Rectangle
         glfwSwapBuffers(window);
-
-        /* Poll for and process events */
         glfwPollEvents();
     }
-    glDeleteProgram(shader);
+
+    glDeleteProgram(shaderProgram);
+    glDeleteShader(fragmentShader);
+    glDeleteShader(vertexShader);
+    glDeleteBuffers(1, &vertexBuffer);
+    glDeleteBuffers(1, &colorBuffer);
+    glDeleteVertexArrays(1, &vertexArray);
+
     glfwTerminate();
+
     return 0;
 }
