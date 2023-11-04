@@ -42,9 +42,9 @@ Alternatively you may edit the CMakeLists.txt to change the executable and then 
 ![Jumping Animation](https://github.com/Ritika128/OpenGl-3d-GameEngine/blob/main/media/Jumping.qt)
 
 ![Render of rotating pyramid](https://github.com/Ritika128/OpenGl-3d-GameEngine/blob/main/media/Pyramid.mov)
+Render of rotating cube:
 
-![Render of rotating cube](https://github.com/Ritika128/OpenGl-3d-GameEngine/blob/main/media/Cube.mov)
-
+Render of chessboard:
 ![Render of chessboard](https://github.com/Ritika128/OpenGl-3d-GameEngine/blob/main/media/Chessboard.png)
 
 ## Contributors
