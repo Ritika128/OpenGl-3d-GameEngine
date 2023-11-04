@@ -35,14 +35,24 @@ Alternatively you may edit the CMakeLists.txt to change the executable and then 
 * GLM- GLM is a C++ mathematics library for graphics software based on the OpenGL Shading Library(GLSL) specification. We used the GLM library to provide animations to the shapes we rendered using Modern OpenGL. GLM library provides us with matrices and vectors which can be passed to the draw call, and refresh the indices of the shapes rendered, resulting in motion.
   
 ## Results
-![Translation Animation](https://github.com/Ritika128/OpenGl-3d-GameEngine/blob/main/media/Translation.qt)
+Translation Animation:
 
-![Rotation Animation](https://github.com/Ritika128/OpenGl-3d-GameEngine/blob/main/media/Rotation.qt)
+Rotation Animation:
 
-![Jumping Animation](https://github.com/Ritika128/OpenGl-3d-GameEngine/blob/main/media/Jumping.qt)
+Jumping Animation:
 
-![Render of rotating pyramid](https://github.com/Ritika128/OpenGl-3d-GameEngine/blob/main/media/Pyramid.mov)
+Render of rotating pyramid:
+
+
+https://github.com/Ritika128/OpenGl-3d-GameEngine/assets/135098666/5d685a31-5224-4be2-ab6d-8e5f26d87f30
+
+
+
 Render of rotating cube:
+
+https://github.com/Ritika128/OpenGl-3d-GameEngine/assets/135098666/04b476d9-6543-46cc-8d19-247746035066
+
+
 
 Render of chessboard:
 ![Render of chessboard](https://github.com/Ritika128/OpenGl-3d-GameEngine/blob/main/media/Chessboard.png)
