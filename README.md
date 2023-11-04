@@ -1,6 +1,7 @@
 
 # OpenGL 3D Game Engine
 
+## Aim of the project:
 The aim of the project is to make a 3D chess game using C++ and OpenGL Shading Language GLSL.
 
 
