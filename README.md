@@ -2,11 +2,17 @@
 # OpenGL 3D Game Engine
 ## Table of contents:
 [Aim of the project](https://github.com/Ritika128/OpenGl-3d-GameEngine#aim-of-the-project)
+
 [Clone and build the programs in the repository](https://github.com/Ritika128/OpenGl-3d-GameEngine#clone-and-build-the-programs-in-the-repository)
+
 [Programming Languages Used](https://github.com/Ritika128/OpenGl-3d-GameEngine#programming-languages-used)
+
 [Libraries Used](https://github.com/Ritika128/OpenGl-3d-GameEngine#libraries-used)
+
 [Results](https://github.com/Ritika128/OpenGl-3d-GameEngine#results)
+
 [Contributors](https://github.com/Ritika128/OpenGl-3d-GameEngine#contributors)
+
 [Acknowledgements](https://github.com/Ritika128/OpenGl-3d-GameEngine#acknowledgements)
 ## Aim of the project:
 The aim of the project is to make a 3D chess game using C++ and OpenGL Shading Language GLSL.
