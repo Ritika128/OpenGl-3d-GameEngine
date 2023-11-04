@@ -1,5 +1,5 @@
-//animated color swap rectangle
-//index buffers and uniforms
+// rotating a cube with different color for each face
+
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <fstream>
@@ -112,19 +112,19 @@ int main(void)
     glfwSwapInterval(1);
 
     float positions [] = {
-		-0.5f, -0.5f, 0.5f,  1.0f,0.0f,0.0f,
-         0.5f, -0.5f, 0.5f,  1.0f,0.0f,0.0f,
-         0.5f,  0.5f, 0.5f,  1.0f,0.0f,0.0f,
-        -0.5f,  0.5f, 0.5f,  1.0f,0.0f,0.0f,
+		    -0.5f, -0.5f, 0.5f,
+         0.5f, -0.5f, 0.5f,
+         0.5f,  0.5f, 0.5f,
+        -0.5f,  0.5f, 0.5f,
         
-        -0.5f, -0.5f, -0.5f,  1.0f,0.0f,0.0f,
-         0.5f, -0.5f, -0.5f,  1.0f,0.0f,0.0f,
-         0.5f,  0.5f, -0.5f,  1.0f,0.0f,0.0f,
-        -0.5f,  0.5f, -0.5f,  1.0f,0.0f,0.0f
+        -0.5f, -0.5f, -0.5f,
+         0.5f, -0.5f, -0.5f,
+         0.5f,  0.5f, -0.5f,
+        -0.5f,  0.5f, -0.5f
          };
     //index buffer
     unsigned int indices[] = {
-		0, 1, 2, // Front
+		    0, 1, 2, // Front
         2, 3, 0,
 
         1, 2, 6, // Right
@@ -136,62 +136,42 @@ int main(void)
         3, 2, 6, // Top
         6, 7, 3,
 
-
         0, 3, 7, // Left
         7, 4, 0,
 
         4, 5, 1, // Bottom
         1, 0, 4,
-};
+    };
 
-
-    unsigned int VAO,buffer,ibo;
-    glGenVertexArrays(1,&VAO);
-    glGenBuffers(1, &buffer);
-    glGenBuffers(1, &ibo); 
-
-    glBindVertexArray(VAO);
-
-   
-                                                       
+    unsigned int buffer;
+    glGenBuffers(1, &buffer);                                                    
     glBindBuffer(GL_ARRAY_BUFFER, buffer);                                       
     glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW); 
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);                                       
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT,GL_FALSE, 0 ,(void*)(3*sizeof(float)));
-    glVertexAttribPointer(1, 3, GL_FLOAT,GL_FALSE, 0 ,(void*)(3*sizeof(float)));
     glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT,GL_FALSE, 0 ,0);
 
-    glBindBuffer(GL_ARRAY_BUFFER,0);
-    glBindVertexArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);    
-    
-    ShaderProgramsSource source = ParseShader("res/shaders/Colour.shader");
-    unsigned int shader = CreateShader(source.VertexSource,source.FragmentSource); 
+    //index buffer objecta
+    unsigned int ibo;
+    glGenBuffers(1, &ibo);                                                    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);                                       
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW); 
 
-   
-    
+    ShaderProgramsSource source = ParseShader("res/shaders/animation.shader");
+    unsigned int shader = CreateShader(source.VertexSource,source.FragmentSource);
+    glUseProgram(shader);
+       
     while (!glfwWindowShouldClose(window))
     {
-    
-        
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-        glUseProgram(shader);
-        glBindVertexArray(VAO);
+       
         glDrawElements(GL_TRIANGLES, 6*6, GL_UNSIGNED_INT, nullptr);
-
-        
-
 
         glm::mat4 trans = glm::mat4(1.0f);
         trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(1.0f, 0.0f, 0.0f)); 
-        
-        
+              
         unsigned int transformLoc = glGetUniformLocation(shader, "transform");
         glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-        
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
@@ -199,9 +179,6 @@ int main(void)
         /* Poll for and process events */
         glfwPollEvents();
     }
-    glDeleteVertexArrays(1,&VAO);
-    glDeleteBuffers(1,&buffer);
-    glDeleteBuffers(1,&ibo);
     glDeleteProgram(shader);
     glfwTerminate();
     return 0;
