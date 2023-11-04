@@ -33,6 +33,19 @@ Alternatively you may edit the CMakeLists.txt to change the executable and then 
 * GLEW- GLEW (OpenGL Extension Wrangler Library) is a cross-platform C/C++ extension loading library that provides an effcient mechanism to determine which extensions are supported on the platform.
 * GLAD- GLAD allows the user to include only those extensions which they wish to, leading to faster compile times. GLEW can detect which dependencies are available at compile time, leading to better adaptability.
 * GLM- GLM is a C++ mathematics library for graphics software based on the OpenGL Shading Library(GLSL) specification. We used the GLM library to provide animations to the shapes we rendered using Modern OpenGL. GLM library provides us with matrices and vectors which can be passed to the draw call, and refresh the indices of the shapes rendered, resulting in motion.
+  
+## Results
+![Translation Animation](https://github.com/Ritika128/OpenGl-3d-GameEngine/blob/main/media/Translation.qt)
+
+![Rotation Animation](https://github.com/Ritika128/OpenGl-3d-GameEngine/blob/main/media/Rotation.qt)
+
+![Jumping Animation](https://github.com/Ritika128/OpenGl-3d-GameEngine/blob/main/media/Jumping.qt)
+
+![Render of rotating pyramid](https://github.com/Ritika128/OpenGl-3d-GameEngine/blob/main/media/Pyramid.mov)
+
+![Render of rotating cube](https://github.com/Ritika128/OpenGl-3d-GameEngine/blob/main/media/Cube.mov)
+
+![Render of chessboard](https://github.com/Ritika128/OpenGl-3d-GameEngine/blob/main/media/Chessboard.png)
 
 ## Contributors
 
