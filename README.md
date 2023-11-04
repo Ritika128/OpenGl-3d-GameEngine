@@ -37,9 +37,21 @@ Alternatively you may edit the CMakeLists.txt to change the executable and then 
 ## Results
 Translation Animation:
 
+
+https://github.com/Ritika128/OpenGl-3d-GameEngine/assets/135098666/41891408-26f7-41d4-b870-3c9b7dfa7827
+
+
 Rotation Animation:
 
+
+https://github.com/Ritika128/OpenGl-3d-GameEngine/assets/135098666/484b822b-3653-41d4-9707-2023bf35d107
+
+
 Jumping Animation:
+
+
+https://github.com/Ritika128/OpenGl-3d-GameEngine/assets/135098666/f80efa10-65b5-4b62-9ccc-c0e87cf082f8
+
 
 Render of rotating pyramid:
 
